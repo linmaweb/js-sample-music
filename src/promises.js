@@ -1,26 +1,19 @@
-import { result, more, apiURL } from "./variables";
+import { result, more, apiSearchURL, apiLyricsURL, corsURL } from "./variables";
 
 async function searchSongs(term) {
-  const res = await fetch(
-    `https://cors-anywhere.herokuapp.com/http://api.deezer.com/search?limit=99&q=${term}`
-  );
-
-  //const res = await fetch(`${apiURL}/suggest/${term}`);
-
+  const res = await fetch(`${corsURL}${apiSearchURL}${term}`);
   const data = await res.json();
-
   showData(data);
 }
 
 async function getMoreSongs(url) {
-  const res = await fetch(`https://cors-anywhere.herokuapp.com/${url}`);
+  const res = await fetch(`${corsURL}/${url}`);
   const data = await res.json();
-
   showData(data);
 }
 
 async function getLyrics(artist, songTitle, cover, preview, artistPic) {
-  const res = await fetch(`${apiURL}/v1/${artist}/${songTitle}`);
+  const res = await fetch(`${apiLyricsURL}/${artist}/${songTitle}`);
   const data = await res.json();
 
   result.innerHTML = `
@@ -33,17 +26,14 @@ async function getLyrics(artist, songTitle, cover, preview, artistPic) {
       <source src="${preview}" type="audio/mpeg">
     Your browser does not support the audio element.
     </audio>
-    
     <h3>Artist: ${artist}</h3>
     <img src="${artistPic}" class="thumbnail-big thumbnail-shadow" />
-    
     `;
 
   if (data.error) {
     result.innerHTML += `<p>Sorry the lyrics for this song is not available for now. Please check later.</p>`;
   } else {
     const lyrics = data.lyrics.replace(/(\r\n|\r|\n)/g, "<br>");
-
     result.innerHTML += `<h3>Lyrics</h3><span>${lyrics}</span>`;
   }
 
@@ -52,7 +42,7 @@ async function getLyrics(artist, songTitle, cover, preview, artistPic) {
 
 const showData = (data) => {
   result.innerHTML = `
-    <ul class="songs">
+    <ul class="songs" id="songs">
       ${data.data
         .map(
           (song) => `<li>
@@ -80,12 +70,12 @@ const showData = (data) => {
     more.innerHTML = `
       ${
         data.prev
-          ? `<button class="btn hidden" onClick="getMoreSongs('${data.prev}')">Prev</button>`
+          ? `<button class="btn btn-prev" onClick="getMoreSongs('${data.prev}')">Prev</button>`
           : ""
       }
       ${
         data.next
-          ? `<button class="btn hidden" onClick="getMoreSongs('${data.next}')">Next</button>`
+          ? `<button class="btn btn-next" onClick="getMoreSongs('${data.next}')">Next</button>`
           : ""
       }
     `;

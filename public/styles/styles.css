@@ -40,7 +40,7 @@ h6 {
   text-align: center;
 }
 
-.header__title {
+.header-title {
   font-size: 4.2rem;
   margin-bottom: 0.4rem;
 }
@@ -67,7 +67,8 @@ h6 {
   margin: 15px;
 }
 
-.hidden {
+.btn-prev,
+.btn-next {
   display: none;
 }
 
@@ -188,4 +189,9 @@ ul.songs li .thumbnail {
   to {
     transform: rotate(360deg);
   }
+}
+
+#infinite-list {
+  max-height: 500px;
+  overflow: auto;
 }
