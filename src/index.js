@@ -1,9 +1,8 @@
 import { form, search, result } from "./variables";
-import { searchSongs, getLyrics } from "./promises";
+import { searchSongs, getLyrics } from "./view";
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-
   const searchTerm = search.value.trim();
 
   if (!searchTerm) {
@@ -15,7 +14,6 @@ form.addEventListener("submit", (e) => {
 
 result.addEventListener("click", (e) => {
   const clickedEl = e.target;
-
   if (clickedEl.tagName === "BUTTON") {
     const artist = clickedEl.getAttribute("data-artist");
     const songTitle = clickedEl.getAttribute("data-songtitle");

@@ -67,11 +67,6 @@ h6 {
   margin: 15px;
 }
 
-.btn-prev,
-.btn-next {
-  display: none;
-}
-
 button {
   cursor: pointer;
 }
